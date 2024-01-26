@@ -38,6 +38,30 @@ function LaunchGame(){
         imgs[i].src = "imgs/img_"+i+".gif";
     }
 
+    function setTimer(){
+        time = 60;
+        interval = setInterval(function(){
+            if (time == 0){
+                playSound(bell_sound);
+                loseLife();
+            }
+        },  1000);
+    };
+
+    function loseLife(){
+
+    }
+
+    function playSound(){
+
+    }
+
+    function writeMessage(){
+
+    }
+
+    
+
     function main_loop(){
 
     }
