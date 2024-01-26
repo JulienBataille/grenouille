@@ -60,7 +60,19 @@ function LaunchGame(){
 
     }
 
-    
+    let line1 = new Line (Math.floor((Math.random() * 3 ) + 1), -1, 34, 1);
+    let line2 = new Line (Math.floor((Math.random() * 3 ) + 1), 1, 28, 2);
+    let line3 = new Line (Math.floor((Math.random() * 3 ) + 1), -1, 33, 3);
+    let line4 = new Line (Math.floor((Math.random() * 3 ) + 1), 1, 34, 4);
+    let line5 = new Line (Math.floor((Math.random() * 3 ) + 1), -1, 54, 5);
+
+    let line6 = new Line (Math.floor((Math.random() * 3 ) + 1), -1, 117, 6);
+    let line7 = new Line (Math.floor((Math.random() * 3 ) + 1), -1, 180, 7);
+    let line8 = new Line (Math.floor((Math.random() * 3 ) + 1), -1, 84, 8);
+    let line9 = new Line (Math.floor((Math.random() * 3 ) + 1), -1, 180, 7);
+    let line10 = new Line (Math.floor((Math.random() * 3 ) + 1), -1, 117, 6);
+
+
 
     function main_loop(){
 
