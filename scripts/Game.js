@@ -4,6 +4,7 @@ function LaunchGame(){
     let score = 0;
     let wl_full = 0;
     let loading = 0;
+    let begin = false;
 
 
     let canvas = document.getElementById("board");   
@@ -51,8 +52,10 @@ function LaunchGame(){
 
     }
 
-    function playSound(){
-
+    function playSound(sound){
+        if (frog.isNotBlocked()){
+            sound.play() ;
+        }
     }
 
     function writeMessage(){
@@ -120,7 +123,21 @@ function LaunchGame(){
     }
 
     function main_loop(){
-
+       if (begin == false){
+        ctx.lineJoin = "round";
+        ctx.lineWidth = 7;
+        ctx.strokeStyle = "#fff";
+        ctx.strokeRect(175, 235, 300, 28);
+        ctx.fillStyle = "#000";
+        ctx.fillRect(175, 235, 300, 28);
+        ctx.fillStyle = "#2E6730";
+        ctx.fillRect(175, 235, (loading * 3), 28);
+        ctx.LineWidth = 3;
+        ctx.font = "12pt Comic Sans MS";
+        ctx.strokeStyle = "#f2f2f2";
+        ctx.fillStyle = "#000";
+        
+       } 
     }
 
     function whatKey(evt){
