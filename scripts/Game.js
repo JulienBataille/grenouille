@@ -136,7 +136,8 @@ function LaunchGame(){
         ctx.font = "12pt Comic Sans MS";
         ctx.strokeStyle = "#f2f2f2";
         ctx.fillStyle = "#000";
-        
+        ctx.strokeText("Loading " + loading + "%", 275, 255);
+        ctx.fillText("Loading " + loading + "%", 275, 255);
        } 
     }
 
