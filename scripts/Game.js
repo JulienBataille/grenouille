@@ -5,6 +5,10 @@ function LaunchGame(){
     let wl_full = 0;
     let loading = 0;
     let begin = false;
+    let anim_time = 0;
+    let last_y = 380;
+    let message_state = 0;
+    let ctx, line, grad, pat1, pat2, pat3, pat4, pat5, interval;
 
 
     let canvas = document.getElementById("board");   
@@ -117,11 +121,6 @@ function LaunchGame(){
     let frog = new Frog();
     loading = loading + 17;
 
-
-    function Frog(){
-
-    }
-
     function main_loop(){
        if (begin == false){
         ctx.lineJoin = "round";
@@ -138,32 +137,171 @@ function LaunchGame(){
         ctx.fillStyle = "#000";
         ctx.strokeText("Loading " + loading + "%", 275, 255);
         ctx.fillText("Loading " + loading + "%", 275, 255);
-       } 
-    }
+        if (loading == 100){
+            ctx.lineWidth = 5;
+            ctx.strokeStyle = "#819AAB"
+            ctx.fillStyle = "#fff";
+            ctx.font = "18pt Comic Sans MS";
+            ctx.strokeText("Press \"ENTER\" to start", 184, 220);
+            ctx.fillText("Press \"ENTER\" to start", 184, 220);
+        }
+
+       } else {
+            //gestion des collisions //
+            if (frog.y <= 350 && frog.y >= 230){
+                for (let i = 0 ; i < enms.length; i++){
+                    if (enms[i].y == frog.y){
+                        if (enms[i].inCollision(frog)){
+                            playSound(hit_sound);
+                            loseLife();
+                        }
+                    }
+                }
+            } else if (frog.y <= 170 && frog.y >= 50){
+                line = null;
+                for (let i = 0 ; i < plts.length; i++){
+                    if (plts[i].y == frog.y){
+                        if (plts[i].inCollision(frog)){
+                            line = plts[i].line
+                        }
+                    }
+                }
+                if (line != null){
+                    frog.move(line.speed , line.dir);
+                    if (frog.isOut()){
+                        playSound(water_sound);
+                        loseLife();
+                    }
+                } else {
+                    playSound(water_sound);
+                    loseLife()
+                }
+            } else if (frog.y == 20) {
+                let flag = false;
+                for (let i = 0 ; i < wls.length ; i++){
+                    if (wls[i].contains(frog)){
+                        wls[i].setuSed();
+                        flag = true
+                    }
+                } if (flag == false){
+                    playSound(hit_sound);
+                    loseLife;
+                } else {
+                    boing_sound.pause();
+                    playSound(frog_sound);
+                    wl_full ++;
+                    score = score + (time * 10);
+                    if (wl_full == 5){
+                        clearInterval(interval);
+                        frog.hide();
+                        score = score + (life_count * 1000);
+                        message_state = 3;
+                    } else {
+                        frog.initPos();
+                        time = 60;
+                    }
+                }
+            } if (grad == null){
+                grad = ctx.createLinearGradient(460, 421, 640, 451);
+                grad.addColorStop(0, 'red');
+                grad.addColorStop(0.3, 'yellow');
+                grad.addColorStop(1, 'green');
+                pat1 = ctx.createPattern(imgs[16], "repeat");
+                pat2 = ctx.createPattern(imgs[15], "repeat");
+                pat3 = ctx.createPattern(imgs[17], "repeat");
+                pat4 = ctx.createPattern(imgs[14], "repeat");
+                pat5 = ctx.createPattern(imgs[13], "repeat");
+            } 
+            ctx.fillStyle = pat1;
+            ctx.fillRect(0, 0, 650, 50);
+            ctx.fillStyle = pat2;
+            ctx.fillRect(0, 50, 650, 150);
+            ctx.fillStyle = pat3;
+            ctx.fillRect(0, 200, 650, 30);
+            ctx.fillStyle = pat4;
+            ctx.fillRect(0, 380, 650, 70);
+            ctx.fillStyle = pat5;
+            ctx.fillRect(0, 230, 650, 150);
+
+            ctx.lineJoin = "round";
+            ctx.lineWidth = 7;
+            ctx.strokeStyle = "#fff";
+            ctx.strokeRect(460, 421, 180, 18);
+            ctx.fillStyle = "#000";
+            ctx.fillRect(460, 421, 180, 18);
+            ctx.fillStyle = grad;
+            ctx.fillRect(460, 421, (time*3), 18);
+            ctx.lineWidth = 3;
+            ctx.font ="10pt Comic Sans MS";
+            ctx.strokeStyle = "#f2f2f2";
+            ctx.fillStyle = "#000";
+            ctx.strokeText("time : " + time + " s", 520, 435);
+            ctx.fillText("time : " + time + " s", 520, 435);
+
+            ctx.strokeStyle = "#A83F00";
+            ctx.fillStyle = "#ECD729";
+            ctx.font = "12pt Comic Sans MS";
+            ctx.strokeText("life : ", 40, 435);
+            ctx.fillText("life : ", 40, 435);
+            for (let i =0; i < life_count; i++){
+                ctx.drawImage(imgs[20], 110 + (i*30), 417);
+            }
+
+            ctx.strokeText("Score : ", 274,435);
+            ctx.fillText("Score : ", 274,435);
+            ctx.fillStyle = "#3E8B00";
+            ctx.strokeStyle = "#102300";
+            ctx.lineWidth = 5;
+            ctx.font = "14pt Comic Sans MS";
+            ctx.strokeText(score, 335, 437);
+            ctx.fillText(score, 335, 437);
+
+            //camioooooon pouet pouet//
+            for (let i = 0; i<enms.length; i++){
+                enms[i].move();
+                ctx.drawImage(imgs[enms[i].line.type], enms[i].x, enms[i].y)
+            }
+            for (let i = 0; i<plts.length; i++){
+                plts[i].move();
+                ctx.drawImage(imgs[plts[i].line.type], plts[i].x, plts[i].y)
+            }
+            for (let i = 0; i<wls.length; i++){
+                if (wls[i].isUsed()){
+                    ctx.drawImage(imgs[10], wls[i].x, wls[i].y);
+                } else {
+                    ctx.drawImage(imgs[9], wls[i].x, wls[i].y);
+                }
+            }
+            if (!frog.isNotBlocked()){
+                if (frog.y <= 170 && frog.y >= 50 && time > 0){
+                    ctx.drawImage(imgs[18], frog.x, frog.y);
+                } else if (frog.y <= 350 && frog.y >= 230 && time > 0){
+                    ctx.drawImage(imgs[19], frog.x, frog.y);
+                } else {
+                    ctx.drawImage(imgs[11], frog.x, frog.y);
+                }
+            }
+       }
+    };
 
     function whatKey(evt){
         switch(evt.keyCode){
-            case 81:
-                frog.goLeft(); 
-                playSound(boing_sound);
-                anim_time = 8;
-            break;
-            case 68:
-                frog.goRight(); 
-                playSound(boing_sound);
-                anim_time = 8;
-            break;
             case 37:
                 frog.goLeft(); 
                 playSound(boing_sound);
                 anim_time = 8;
             break;
-            case 83:
+            case 39:
+                frog.goRight(); 
+                playSound(boing_sound);
+                anim_time = 8;
+            break;
+            case 40:
                 frog.goDown(); 
                 playSound(boing_sound);
                 anim_time = 8;
             break;
-            case 90:
+            case 38:
                 frog.goUp(); 
                 playSound(boing_sound);
                 anim_time = 8;
@@ -190,7 +328,7 @@ function LaunchGame(){
                 if(loading == 100){
                     loading = 0;
                     frog.unBlock();
-                    beggin = true;
+                    begin = true;
                     setTimer();
                 }
             break;
