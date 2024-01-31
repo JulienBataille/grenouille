@@ -14,35 +14,44 @@ function Obj(x,y,line){
 	
 	//Fonction qui determine si l'objet et en collision avec le frog	
 	this.inCollision=function(frog){
-		if(frog.x+25>=this.x && frog.x+5<=(this.x+this.line.width)){
-			return true;
-		}
-		else{
-			return false;
-		}
+		return frog.x+25>=this.x && frog.x+5<=(this.x+this.line.width)
+		// if(frog.x+25>=this.x && frog.x+5<=(this.x+this.line.width)){
+		// 	return true;
+		// }
+		// else{
+		// 	return false;
+		// }
 	}
 	//Fonction qui déplace l'object selon sa vitesse & direction	
 	this.move=function(){
-		if(this.line.dir==1){
-			if(this.x>650){
-				this.x=-(this.line.width*3);
-			}
-			else{
-				this.x=this.x+(this.line.speed*this.line.dir);
-			}
-		}
-		else{
-			if(this.x<-this.line.width){
-				this.x=650+(this.line.width*3);
-			}
-			else{
-				this.x=this.x+(this.line.speed*this.line.dir);
-			}
-		}
+		this.line.dir == 1
+		? this.x = this.x >650
+			? - (this.line.width*3) 
+			: this.x + (this.line.speed*this.line.dir)
+		: this.x = this.x < - this.line.width 
+			? 650+(this.line.width*3) 
+			: this.x + (this.line.speed*this.line.dir);
+	// 	if(this.line.dir==1){
+	// 		if(this.x>650){
+	// 			this.x=-(this.line.width*3);
+	// 		}
+	// 		else{
+	// 			this.x=this.x+(this.line.speed*this.line.dir);
+	// 		}
+	// 	}
+	// 	else{
+	// 		if(this.x<-this.line.width){
+	// 			this.x=650+(this.line.width*3);
+	// 		}
+	// 		else{
+	// 			this.x=this.x+(this.line.speed*this.line.dir);
+	// 		}
+	// 	}
 				
-	}
-} 
+	// }
 
+	}
+}
 //Grounouille caractérisé par ses positions x,y son état(utilisé pour le bloqué) 
 //et son degré(utilisé pour le faire tourner lors de l'affichage)		
 function Frog(){
@@ -64,49 +73,67 @@ function Frog(){
 	}
 	
 	this.goUp=function(){
-		if(this.state==true){
-			if(this.y>20){
-				this.y=this.y-30;
-			}
+		if(this.state){
+			this.y = this.y > 20 ? this.y -30 : this.y ;
 			this.deg=0;
+			// if(this.y>20){
+			// 	this.y=this.y-30;
+			// }
 		}
 	}
 	
 	this.goDown=function(){
-		if(this.state==true){
-			if(this.y==170){
-				if(this.x>310){
-					while(((this.x-10)%30)!=0){
-						this.x--;
-					}
-				}else{
-					while(((this.x-10)%30)!=0){
-						this.x++;
-					}
-				}
-			}
-			if(this.y<380){
-				this.y=this.y+30;
-			}
+		if(this.state){
+			this.x = this.x > 310  && this.y ==170 
+			? this.x - (this.x-10)%30 
+			: this.x + (this.x-10)%30 ;
+
+			this.y = this.y < 380 
+			? this.y +30 
+			: this.y;
+
 			this.deg=180;
+			// if(this.y==170){ 
+			// 	if(this.x>310){
+			// 		while(((this.x-10)%30)!=0){
+			// 			this.x--;
+			// 		}
+			// 	}else{
+			// 		while(((this.x-10)%30)!=0){
+			// 			this.x++;
+			// 		}
+			// 	}
+			// }
+			// if(this.y<380){
+			// 	this.y=this.y+30;
+			// }
+
 		}
 	}
 	
 	this.goLeft=function(){
-		if(this.state==true){
-			if(this.x>10){
-				this.x=this.x-30;
-			}
+		if(this.state){
+			this.x = this.x >10 
+			? this.x - 30 
+			: this.x ;
+
 			this.deg=-90;
+				// if(this.x>10){
+			// 	this.x=this.x-30;
+			// }
 		}
 	}
 	
 	this.goRight=function(){
-		if(this.state==true){
-			if(this.x<610){
-				this.x=this.x+30;
-			}
+		if(this.state){
+			this.x = this.x < 610 
+			? this.x +30 
+			: this.x ;
+
 			this.deg=90;
+				// if(this.x<610){
+			// 	this.x=this.x+30;
+			// }
 		}
 	}	
 			
@@ -118,18 +145,20 @@ function Frog(){
 	}	
 	
 	this.isOut=function(){
-		if(this.x<=0 || this.x>=620){
-			return true;
-		}
-		else{
-			return false;
-		}
+		return this.x<=0 || this.x >= 620 ;
+		// if(this.x<=0 || this.x>=620){
+		// 	return true;
+		// }
+		// else{
+		// 	return false;
+		// }
 	}
 	
 	this.move=function(speed,dir){
-		if(this.state==true){
-			this.x=this.x+(speed*dir);
-		}
+		(this.state) ? this.x += (speed*dir): this.x ;
+		// if(this.state==true){
+		// 	this.x=this.x+(speed*dir);
+		// }
 	}
 	
 	this.hide=function(){
@@ -152,12 +181,13 @@ function WaterLily(x,y){
 	
 	//Fonction	qui determine si le frog est à l'intérieur du nénuphar ou pas
 	this.contains=function(frog){
-		if(frog.x>=this.x && (frog.x+30)<=(this.x+86) && !this.isUsed()){
-			return true;
-		}
-		else{
-			return false;
-		}
+		return frog.x>=this.x && (frog.x+30)<=(this.x+86) && !this.isUsed()
+		// if(frog.x>=this.x && (frog.x+30)<=(this.x+86) && !this.isUsed()){
+		// 	return true;
+		// }
+		// else{
+		// 	return false;
+		// }
 	}
 	
 	this.setUsed=function(){

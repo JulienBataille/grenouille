@@ -351,13 +351,8 @@ function LaunchGame() {
 				ctx.save();
 				ctx.translate(frog.x + 15, frog.y + 15);
 				ctx.rotate(frog.deg * Math.PI / 180);
-				if (anim_time == 0) {
-					ctx.drawImage(imgs[0], -15, -15);
-				}
-				else {
-					ctx.drawImage(imgs[12], -15, -15);
-					anim_time--;
-				}
+				anim_time == 0 ? ctx.drawImage(imgs[0], -15, -15) : ctx.drawImage(imgs[12], -15, -15);
+				anim_time != 0 ? anim_time - 1 : anim_time;
 				ctx.restore();
 			}
 
@@ -423,3 +418,22 @@ function LaunchGame() {
 		}
 	};
 };
+
+
+
+// if (frog.isNotBlocked()) {
+// 	ctx.save();
+// 	ctx.translate(frog.x + 15, frog.y + 15);
+// 	ctx.rotate(frog.deg * Math.PI / 180);
+// 	if (anim_time == 0) {
+// 		ctx.drawImage(imgs[0], -15, -15);
+// 	}
+// 	else {
+// 		ctx.drawImage(imgs[12], -15, -15);
+// 		anim_time--;
+// 	}
+// 	ctx.restore();
+// }
+
+
+
