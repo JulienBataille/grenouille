@@ -204,11 +204,14 @@ function LaunchGame() {
 			} else if (frog.y <= 170 && frog.y >= 50) {
 				line = null;
 				for (i = 0; i < plts.length; i++) {
-					if (plts[i].y == frog.y) {
-						if (plts[i].inCollision(frog)) {
-							line = plts[i].line;
-						}
-					}
+					plts[i].y == frog.y && plts[i].inCollision(frog) 
+					? line = plts[i].line
+					: line
+					// if (plts[i].y == frog.y) {
+					// 	if (plts[i].inCollision(frog)) {
+					// 		line = plts[i].line;
+					// 	}
+					// }
 				}
 				if (line != null) {
 					frog.move(line.speed, line.dir);
@@ -314,26 +317,19 @@ function LaunchGame() {
 
 			///////Affichage des nénuphars///////
 			for (i = 0; i < wls.length; i++) {
-				if (wls[i].isUsed()) {
-					ctx.drawImage(imgs[10], wls[i].x, wls[i].y);
-				}
-				else {
-					ctx.drawImage(imgs[9], wls[i].x, wls[i].y);
-				}
+				wls[i].isUsed() 
+				? ctx.drawImage(imgs[10], wls[i].x, wls[i].y)
+				: ctx.drawImage(imgs[9], wls[i].x, wls[i].y)
+				// if (wls[i].isUsed()) {
+				// 	ctx.drawImage(imgs[10], wls[i].x, wls[i].y);
+				// }
+				// else {
+				// 	ctx.drawImage(imgs[9], wls[i].x, wls[i].y);
+				// }
 			}
 
 			///////Affichage du frog quand il meurt///////
-			if (!frog.isNotBlocked()) {
-				if (frog.y <= 170 && frog.y >= 50 && time > 0) {
-					ctx.drawImage(imgs[18], frog.x, frog.y);
-				} else if (frog.y <= 350 && frog.y >= 230 && time > 0) {
-					ctx.drawImage(imgs[19], frog.x, frog.y);
-				}
-				else {
-					ctx.drawImage(imgs[11], frog.x, frog.y);
-				}
-			}
-
+			
 			///////Affichage des Enemies///////
 			for (i = 0; i < enms.length; i++) {
 				enms[i].move();
@@ -344,6 +340,21 @@ function LaunchGame() {
 			for (i = 0; i < plts.length; i++) {
 				plts[i].move();
 				ctx.drawImage(imgs[plts[i].line.type], plts[i].x, plts[i].y);
+			}
+			if (!frog.isNotBlocked()) {
+				frog.y <= 170 && frog.y >=50 && time > 0
+				? ctx.drawImage(imgs[18], frog.x, frog.y)
+				: frog.y <= 350 && frog.y >= 230 && time > 0
+				? ctx.drawImage(imgs[19], frog.x, frog.y)
+				: ctx.drawImage(imgs[11], frog.x, frog.y)
+				// if (frog.y <= 170 && frog.y >= 50 && time > 0) {
+				// 	ctx.drawImage(imgs[18], frog.x, frog.y);
+				// } else if (frog.y <= 350 && frog.y >= 230 && time > 0) {
+				// 	ctx.drawImage(imgs[19], frog.x, frog.y);
+				// }
+				// else {
+				// 	ctx.drawImage(imgs[11], frog.x, frog.y);
+				// }
 			}
 
 			///////Affichage du frog en mouvement///////
@@ -357,13 +368,20 @@ function LaunchGame() {
 			}
 
 			///////Affichage des différents Messages du jeu///////
-			if (message_state == 1) {
-				writeMessage("You lose !", 265);
-			} else if (message_state == 2) {
-				writeMessage("GAME OVER ! Press \"R\" to replay !", 110);
-			} else if (message_state == 3) {
-				writeMessage("You Win ! Press \"R\" to replay !", 140);
-			}
+			message_state ==1 
+			? writeMessage("You lose !", 265) 
+			: message_state ==2 
+			? writeMessage("GAME OVER ! Press \"R\" to replay !", 110) 
+			: message_state ==3
+			? writeMessage("You Win ! Press \"R\" to replay !", 140) 
+			: message_state
+			// if (message_state == 1) {
+			// 	writeMessage("You lose !", 265);
+			// } else if (message_state == 2) {
+			// 	writeMessage("GAME OVER ! Press \"R\" to replay !", 110);
+			// } else if (message_state == 3) {
+			// 	writeMessage("You Win ! Press \"R\" to replay !", 140);
+			// }
 		}
 	};
 

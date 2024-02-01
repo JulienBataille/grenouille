@@ -58,10 +58,11 @@ class Obj{
 //et son degré(utilisé pour le faire tourner lors de l'affichage)		
 class Frog{
 	constructor(){
-	this.x=310; 
-    this.y=380;
-	this.state=false;
-	this.deg=0;}
+		this.x=310; 
+		this.y=380;
+		this.state=false;
+		this.deg=0;
+	}		
 	
 	block(){
 		this.state=false;	
@@ -76,22 +77,24 @@ class Frog{
 	}
 	
 	goUp(){
-		if(this.state){
-			this.y = this.y > 20 ? this.y -30 : this.y ;
+		this.state
+			? this.y = this.y > 20 
+				? this.y -30 
+				: this.y 
+			: this.state
 			this.deg=0;
 			// if(this.y>20){
 			// 	this.y=this.y-30;
 			// }
 		}
-	}
+	
 	
 	goDown(){
-		if(this.state){
-			this.x = this.x > 310  && this.y ==170 
+			this.x = this.x > 310  && this.y ==170   && this.state
 			? this.x - (this.x-10)%30 
 			: this.x + (this.x-10)%30 ;
 
-			this.y = this.y < 380 
+			this.y = this.y < 380   && this.state
 			? this.y +30 
 			: this.y;
 
@@ -110,13 +113,10 @@ class Frog{
 			// if(this.y<380){
 			// 	this.y=this.y+30;
 			// }
-
-		}
 	}
 	
 	goLeft(){
-		if(this.state){
-			this.x = this.x >10 
+			this.x = this.x >10 && this.state
 			? this.x - 30 
 			: this.x ;
 
@@ -125,11 +125,11 @@ class Frog{
 			// 	this.x=this.x-30;
 			// }
 		}
-	}
+	
 	
 	goRight(){
-		if(this.state){
-			this.x = this.x < 610 
+	
+			this.x = this.x < 610 && this.state
 			? this.x +30 
 			: this.x ;
 
@@ -137,7 +137,7 @@ class Frog{
 				// if(this.x<610){
 			// 	this.x=this.x+30;
 			// }
-		}
+		
 	}	
 			
 	initPos(){
