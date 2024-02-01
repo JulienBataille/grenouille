@@ -230,7 +230,7 @@ function LaunchGame() {
 						flag = true;
 					}
 				}
-				if (flag == false) {
+				if (!flag) {
 					playSound(hit_sound);
 					loseLife();
 				}
